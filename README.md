@@ -1,3 +1,3 @@
-# VDPINet
-VDPINet: Integrity-Prior from Pseudo-Depth for Dichotomous Image Segmentation
+# PDFNet
+Patch-Depth Fusion: Dichotomous Image Segmentation via Fine-Grained Patch Strategy and Depth Integrity-Prior
 Coming soon......
