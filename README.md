@@ -7,7 +7,8 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te2)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te2?p=patch-depth-fusion-dichotomous-image)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te3)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te3?p=patch-depth-fusion-dichotomous-image)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te4)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te4?p=patch-depth-fusion-dichotomous-image)
-
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/rgb-salient-object-detection-on-hrsod)](https://paperswithcode.com/sota/rgb-salient-object-detection-on-hrsod?p=patch-depth-fusion-dichotomous-image)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/rgb-salient-object-detection-on-uhrsd)](https://paperswithcode.com/sota/rgb-salient-object-detection-on-uhrsd?p=patch-depth-fusion-dichotomous-image)
 
 > # Patch-Depth Fusion: Dichotomous Image Segmentation via Fine-Grained Patch Strategy and Depth Integrity-Prior
 >
@@ -65,7 +66,7 @@ If you wanna change the training datasets, you can open the '**dataoloaders/Myda
 
 # Test and metric
 
-Open the 'metric_tools/Test'  to change the 'save_dir' and open the 'soc_metric' to change the 'gt_roots' and 'cycle_roots' to what you need.
+Open the '**metric_tools/Test**'  to change the '**save_dir**' and open the '**soc_metric**' to change the '**gt_roots**' and '**cycle_roots**' to what you need.
 Run
 ```
 cd metric_tools
