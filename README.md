@@ -6,7 +6,7 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 >
 > Xianjie Liu, Keren Fu, Qijun Zhao
 >
-> arXiv:2401.00248
+> arXiv:2503:06100
 
 🔥If you are interested in **Dichotomous Image Segmentation** (DIS), we highly recommend checking out our additional project [Awesome Dichotomous Image Segmentation](https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation/tree/main). This project compiles all significant research and resources related to DIS, providing comprehensive references and inspiration for your research and practice. We hope this resource list will help you better understand and apply DIS techniques, driving more accurate image segmentation tasks.
 
