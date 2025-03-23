@@ -16,6 +16,8 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 >
 > arXiv:2401.00248
 > 
+> 🤖2025/3/23: We add a Demo jupyter notebook and you can easily use it to try!
+> 
 > 🔥2025/3/13: We released the code and checkpoints on GitHub.
 > 
 > 📕2025/3/10: We released the paper on the ArXiv.
@@ -79,6 +81,7 @@ python Test.py
 | ---------------------- | ------------------------------------------------------------------------------------------- |
 | DIS-5K TR              | [DIS](https://drive.google.com/drive/folders/1dqkFVR4TElSRFNHhu6er45OQkoHhJsZz?usp=sharing) |
 | HRSOD -TR + UHRSD - TR | Coming soon...                                                                              |
+You also can use the '**demo.ipynb**' to try PDFNet easily!
 # Compare
 ## DIS-5K
 Performance comparisons of PDFNet with MAGNet, CPNet, DACOD, RISNet, IS-Net, FP-DIS, UDUN, InSPyReNet, BiRefNet, MVANet ,GenPercept and DiffDIS. The symbols ↑/↓ indicate that higher/lower scores are better. The best score is highlighted in **bold**, and the second is **underlined** without diffusion-based models because of the much larger parameters.
