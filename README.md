@@ -81,7 +81,9 @@ python Test.py
 | ---------------------- | ------------------------------------------------------------------------------------------- |
 | DIS-5K TR              | [DIS](https://drive.google.com/drive/folders/1dqkFVR4TElSRFNHhu6er45OQkoHhJsZz?usp=sharing) |
 | HRSOD -TR + UHRSD - TR | Coming soon...                                                                              |
+
 You also can use the '**demo.ipynb**' to try PDFNet easily!
+
 # Compare
 ## DIS-5K
 Performance comparisons of PDFNet with MAGNet, CPNet, DACOD, RISNet, IS-Net, FP-DIS, UDUN, InSPyReNet, BiRefNet, MVANet ,GenPercept and DiffDIS. The symbols ↑/↓ indicate that higher/lower scores are better. The best score is highlighted in **bold**, and the second is **underlined** without diffusion-based models because of the much larger parameters.
