@@ -2,6 +2,8 @@
 
 This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100).
 
+"About general-model, I am trying to train on DIS-5K, HRSOD-TR, UHRSD-TR and UHRSD-TE. But it will use a lot of time. Just on DIS-5K-TR it takes 2days on RTX4090 (T_T).If you have any personal use cases, you can very easily train PDFNet on a graphics card with the same or more than video memory specification as that of the RTX 4090. It is worth noting that during the inference process, an input of 1024x1024 occupies 4.9 gigabytes of video memory. : )"
+
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-vd)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-vd?p=patch-depth-fusion-dichotomous-image)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te1)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te1?p=patch-depth-fusion-dichotomous-image)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te2)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te2?p=patch-depth-fusion-dichotomous-image)
