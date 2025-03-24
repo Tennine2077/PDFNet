@@ -77,13 +77,11 @@ python Test.py
 
 # Different training datasets results and checkpoints
 
-| Training Dataset       | Checkpoints and Validation Results                                                          |
-| ---------------------- | ------------------------------------------------------------------------------------------- |
-| DIS-5K TR              | [DIS](https://drive.google.com/drive/folders/1dqkFVR4TElSRFNHhu6er45OQkoHhJsZz?usp=sharing) |
-| HRSOD -TR + UHRSD - TR | Coming soon...                                                                              |
-
+| Training Dataset       | Checkpoints and Validation Results                                                                                        |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| DIS-5K TR              | [DIS Checkpoint and visual results](https://drive.google.com/drive/folders/1dqkFVR4TElSRFNHhu6er45OQkoHhJsZz?usp=sharing) |
+| HRSOD -TR + UHRSD - TR | [Only Visual results](https://drive.google.com/file/d/1DKL1Jonx_PR1HF6m0D4lyUQtAmR7oQrd/view?usp=sharing)                 |
 You also can use the '**demo.ipynb**' to try PDFNet easily!
-
 # Compare
 ## DIS-5K
 Performance comparisons of PDFNet with MAGNet, CPNet, DACOD, RISNet, IS-Net, FP-DIS, UDUN, InSPyReNet, BiRefNet, MVANet ,GenPercept and DiffDIS. The symbols ↑/↓ indicate that higher/lower scores are better. The best score is highlighted in **bold**, and the second is **underlined** without diffusion-based models because of the much larger parameters.
