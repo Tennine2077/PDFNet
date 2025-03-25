@@ -22,6 +22,8 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 >
 > arXiv:2401.00248
 > 
+> 💻2025/3/27: We add a Hugging Face Space using CPU. You can give it a try, and each attempt will take approximately 1 minute!
+> 
 > 🤖2025/3/23: We add a Demo jupyter notebook and you can easily use it to try!
 > 
 > 🔥2025/3/13: We released the code and checkpoints on GitHub.
