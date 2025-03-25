@@ -1,0 +1,15 @@
+numpy>=1.21.0
+torch>=1.9.0
+einops>=0.6.0
+Pillow>=9.0.0
+timm>=0.6.0
+torchvision>=0.10.0
+opencv-python
+loadimg
+gradio_imageslider
+gradio
+huggingface_hub
+GitPython
+spaces
+matplotlib
+tqdm
