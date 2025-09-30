@@ -90,8 +90,8 @@ You also can use the '**demo.ipynb**' to try PDFNet easily!
 
 Please consider to cite PDFNet if it helps your research.
 ```
-@misc{liu2025patchdepthfusiondichotomousimage,
-      title={Patch-Depth Fusion: Dichotomous Image Segmentation via Fine-Grained Patch Strategy and Depth Integrity-Prior}, 
+@misc{liu2025highprecisiondichotomousimagesegmentation,
+      title={High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy}, 
       author={Xianjie Liu and Keren Fu and Qijun Zhao},
       year={2025},
       eprint={2503.06100},
