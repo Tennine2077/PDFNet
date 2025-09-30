@@ -8,14 +8,6 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 <a href='https://huggingface.co/spaces/Tennineee/PDFNet'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20HF-Space-blue'></a>&ensp;
 </div>
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-vd)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-vd?p=patch-depth-fusion-dichotomous-image)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te1)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te1?p=patch-depth-fusion-dichotomous-image)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te2)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te2?p=patch-depth-fusion-dichotomous-image)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te3)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te3?p=patch-depth-fusion-dichotomous-image)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/dichotomous-image-segmentation-on-dis-te4)](https://paperswithcode.com/sota/dichotomous-image-segmentation-on-dis-te4?p=patch-depth-fusion-dichotomous-image)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/rgb-salient-object-detection-on-hrsod)](https://paperswithcode.com/sota/rgb-salient-object-detection-on-hrsod?p=patch-depth-fusion-dichotomous-image)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/patch-depth-fusion-dichotomous-image/rgb-salient-object-detection-on-uhrsd)](https://paperswithcode.com/sota/rgb-salient-object-detection-on-uhrsd?p=patch-depth-fusion-dichotomous-image)
-
 > # Patch-Depth Fusion: Dichotomous Image Segmentation via Fine-Grained Patch Strategy and Depth Integrity-Prior
 >
 > Xianjie Liu, Keren Fu, Qijun Zhao
