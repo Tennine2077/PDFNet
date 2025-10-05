@@ -8,7 +8,7 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 <a href='https://huggingface.co/spaces/Tennineee/PDFNet'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20HF-Space-blue'></a>&ensp;
 </div>
 
-> # Patch-Depth Fusion: Dichotomous Image Segmentation via Fine-Grained Patch Strategy and Depth Integrity-Prior
+> # High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
 >
 > Xianjie Liu, Keren Fu, Qijun Zhao
 >
