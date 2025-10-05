@@ -37,8 +37,6 @@ class IntegrityPriorLoss(nn.Module):
         super().__init__()
 
         self.epsilon = epsilon
-        self.max_variance = 0.05
-        self.max_grad = 0.05
 
         self.sobel_x = nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1, bias=False)
         self.sobel_y = nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1, bias=False)
@@ -59,7 +57,7 @@ class IntegrityPriorLoss(nn.Module):
         FP = (1-py)*mask
         FN = (1-py)*gt
         logP = -torch.log(py + self.epsilon)
-        diff = (depth_map-((depth_map*gt).sum()/gt.sum()))**2
+        diff = (depth_map-((depth_map*gt).sum()/(gt.sum()+self.epsilon)))**2
         FPdiff = (diff)*FP
         FNdiff = (1-diff)*FN
         vareight = (FPdiff+FNdiff)*py    
@@ -206,6 +204,18 @@ def unpatchfy(x,p=4,c=4):
 #     wiou  = 1-(inter+1)/(union-inter+1)
 #     return (wbce+wiou).mean()
 
+# def structure_loss(pred, mask):
+#     wbce  = F.binary_cross_entropy_with_logits(pred, mask)
+
+
+#     pred  = torch.sigmoid(pred)
+#     inter = ((pred * mask)).sum(dim=(2, 3))
+
+#     union = ((pred + mask)).sum(dim=(2, 3))
+#     wiou  = 1-(inter+1e-6)/(union-inter+1e-6)
+
+#     return (wbce+wiou.mean())
+
 def structure_loss(pred, mask):
     weit  = 1+5*torch.abs(F.avg_pool2d(mask, kernel_size=31, stride=1, padding=15)-mask)
     wbce  = F.binary_cross_entropy_with_logits(pred, mask, reduction='none')
@@ -216,7 +226,7 @@ def structure_loss(pred, mask):
     inter = ((pred * mask) * weit).sum(dim=(2, 3))
 
     union = ((pred + mask) * weit).sum(dim=(2, 3))
-    wiou  = 1-(inter+1)/(union-inter+1)
+    wiou  = 1-(inter+1e-6)/(union-inter+1e-6)
 
     return (wbce+wiou).mean()
 

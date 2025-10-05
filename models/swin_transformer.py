@@ -647,7 +647,7 @@ def SwinS(pretrained=True):
 def SwinB(args,in_chans=4,pretrained=True):
     model = SwinTransformer(in_chans=in_chans,embed_dim=128, depths=[2, 2, 18, 2], num_heads=[4, 8, 16, 32], window_size=12, drop_path_rate=args.drop_path, ape=True)
     if pretrained is True:
-        checkpoint = torch.load(r'checkpoints/swin_base_patch4_window12_384_22kto1k.pth', map_location='cpu')
+        checkpoint = torch.load(r'/home/PDFNet/PDFNet/checkpoints/swin_base_patch4_window12_384_22kto1k.pth', map_location='cpu')
         if 'model' in checkpoint:
             checkpoint_model = checkpoint['model']
         else:

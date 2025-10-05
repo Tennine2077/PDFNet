@@ -18,12 +18,12 @@ class PDF_depth_decoder(nn.Module):
         
         emb_dim = 128
         self.Decoder = nn.ModuleList()
-        self.Decoder.append(nn.Sequential(make_crs(emb_dim*2,emb_dim*2),make_crs(emb_dim*2,emb_dim)))
-        self.Decoder.append(nn.Sequential(make_crs(emb_dim*2,emb_dim*2),make_crs(emb_dim*2,emb_dim)))
-        self.Decoder.append(nn.Sequential(make_crs(emb_dim*2,emb_dim*2),make_crs(emb_dim*2,emb_dim)))
-        self.Decoder.append(nn.Sequential(make_crs(emb_dim*2,emb_dim*2),make_crs(emb_dim*2,emb_dim)))
+        self.Decoder.append(nn.Sequential(make_crs(emb_dim*2*3,emb_dim*2),make_crs(emb_dim*2,emb_dim)))
+        self.Decoder.append(nn.Sequential(make_crs(emb_dim*(1+3),emb_dim*2),make_crs(emb_dim*2,emb_dim)))
+        self.Decoder.append(nn.Sequential(make_crs(emb_dim*(1+3),emb_dim*2),make_crs(emb_dim*2,emb_dim)))
+        self.Decoder.append(nn.Sequential(make_crs(emb_dim*(1+3),emb_dim*2),make_crs(emb_dim*2,emb_dim)))
 
-        self.shallow = nn.Sequential(nn.Conv2d(raw_ch, emb_dim, kernel_size=3, stride=1, padding=1))
+        self.shallow = nn.Sequential(nn.Conv2d(raw_ch*2, emb_dim, kernel_size=3, stride=1, padding=1))
         self.upsample1 = make_crs(emb_dim,emb_dim)
         self.upsample2 = make_crs(emb_dim,emb_dim)
 
@@ -34,7 +34,7 @@ class PDF_depth_decoder(nn.Module):
         self.Bside.append(nn.Conv2d(emb_dim,out_ch,3,padding=1))
         self.Bside.append(nn.Conv2d(emb_dim,out_ch,3,padding=1))
 
-    def forward(self,img,img_feature):
+    def forward(self,img,depth,img_feature):
 
         L1_feature,L2_feature,L3_feature,L4_feature,global_feature = img_feature
 
@@ -46,7 +46,7 @@ class PDF_depth_decoder(nn.Module):
 
         De_L1 = self.Decoder[3](torch.cat([_upsample_like(De_L2,L1_feature),L1_feature],dim=1))
 
-        shallow = self.shallow(img)
+        shallow = self.shallow(torch.cat([img,depth],dim=1))
         final_output = De_L1 + _upsample_like(shallow, De_L1)
         final_output = self.upsample1(_upsample_(final_output,[final_output.shape[-2]*2,final_output.shape[-1]*2]))
         final_output = _upsample_(final_output + _upsample_like(shallow, final_output),[final_output.shape[-2]*2,final_output.shape[-1]*2])
@@ -65,6 +65,26 @@ class CoA(nn.Module):
     def __init__(self, emb_dim=128):
         super(CoA, self).__init__()
         self.Att = nn.MultiheadAttention(emb_dim,1,bias=False,batch_first=True,dropout=0.1)
+        self.Normq = RMSNorm(emb_dim,data_format='channels_last')
+        self.Normkv = RMSNorm(emb_dim,data_format='channels_last')
+        self.drop1 = nn.Dropout(0.1)
+        self.FFN = SwiGLU(emb_dim,emb_dim)
+        self.Norm2 = RMSNorm(emb_dim,data_format='channels_last')
+        self.drop2 = nn.Dropout(0.1)
+
+    def forward(self,q,kv):
+        res = q
+        KV_feature = self.Att(self.Normq(q), self.Normkv(kv), self.Normkv(kv))[0]
+        KV_feature = self.drop1(KV_feature) + res
+        res = KV_feature
+        KV_feature = self.FFN(self.Norm2(KV_feature))
+        KV_feature = self.drop2(KV_feature) + res
+        return KV_feature
+
+class CoA(nn.Module):
+    def __init__(self, emb_dim=128):
+        super(CoA, self).__init__()
+        self.Att = nn.MultiheadAttention(emb_dim,1,bias=False,batch_first=True,dropout=0.1)
         self.Norm1 = RMSNorm(emb_dim,data_format='channels_last')
         self.drop1 = nn.Dropout(0.1)
         self.FFN = SwiGLU(emb_dim,emb_dim)
@@ -73,13 +93,12 @@ class CoA(nn.Module):
 
     def forward(self,q,kv):
         res = q
-        KV_feature = self.Att(q, kv, kv)[0]
-        KV_feature = self.Norm1(self.drop1(KV_feature)) + res
+        KV_feature = self.Norm1(self.Att(q,kv,kv)[0])
+        KV_feature = self.drop1(KV_feature) + res
         res = KV_feature
-        KV_feature = self.FFN(KV_feature)
-        KV_feature = self.Norm2(self.drop2(KV_feature)) + res
+        KV_feature = self.Norm2(self.FFN(KV_feature))
+        KV_feature = self.drop2(KV_feature) + res
         return KV_feature
-
 
 class FSE(nn.Module):
     def __init__(self, img_dim=128, depth_dim=128, patch_dim=128, emb_dim=128, pool_ratio=[1,1,1], patch_ratio=4):
@@ -149,11 +168,11 @@ class FSE(nn.Module):
 
     def BIS(self,pred):
         if pred.shape[-2]//8 % 2 == 0:
-            boundary = 2*self.get_boundary(pred.sigmoid())
-            return boundary, F.relu(pred.sigmoid()-5*boundary)
+            boundary = (self.get_boundary(pred.sigmoid())>0.1).float()
+            return boundary, F.relu(pred.sigmoid()-boundary)
         else:
-            boundary = 2*self.get_boundary(pred.sigmoid())
-            return boundary, F.relu(pred.sigmoid()-5*boundary)
+            boundary = self.get_boundary(pred.sigmoid())
+            return boundary, F.relu(pred.sigmoid()-boundary)
 
     def forward(self,img,depth,patch,last_pred):
         boundary,integrity = self.BIS(last_pred)
@@ -171,7 +190,7 @@ class FSE(nn.Module):
         #give depth the integrity prior
         integrity = _upsample_like(integrity,depth)
         last_pred_sigmoid = _upsample_like(last_pred,depth).sigmoid()
-        enhance_depth = depth*(last_pred_sigmoid + integrity)
+        enhance_depth = depth*(last_pred_sigmoid+integrity)
         depth_cs = self.D_channelswich(enhance_depth)
         pool_depth_cs = F.adaptive_avg_pool2d(depth_cs,output_size=[depth_H//pd,depth_W//pd])
         pool_depth_cs = rearrange(pool_depth_cs, 'b c h w -> b (h w) c')
@@ -181,7 +200,8 @@ class FSE(nn.Module):
         patch_batch = self.split(patch,patch_ratio=self.patch_ratio)
         boundary_batch = self.split(boundary,patch_ratio=self.patch_ratio)
         boundary_score = boundary_batch.mean(dim=[2,3])[...,None,None]
-        select_patch = patch_batch * (1+5*boundary_score)
+        select_patch = patch_batch * (1+(boundary_score>0).float())
+        # select_patch = patch_batch*0
         select_patch = self.merge(select_patch,batch_size=B)
 
         patch_cs = self.P_channelswich(select_patch)
@@ -203,6 +223,52 @@ class FSE(nn.Module):
 
         return img_feature + rearrange(img_cs, 'b (h w) c -> b c h w',h=img_H), depth_feature + depth_cs, patch_feature + patch_cs
 
+    # def forward(self,img,depth,patch,last_pred):
+    #     boundary,integrity = self.BIS(last_pred)
+    #     # img = img * _upsample_like(last_pred.sigmoid(),img)
+    #     # depth = depth * _upsample_like(last_pred.sigmoid(),depth)
+    #     # patch = patch * _upsample_like(last_pred.sigmoid(),patch)
+    #     pi,pd,pp = self.pool_ratio
+    #     B,C,img_H,img_W = img.size()
+    #     img_cs = self.I_channelswich(img* (1+_upsample_like(integrity,depth)))
+    #     pool_img_cs = F.adaptive_avg_pool2d(img_cs,output_size=[img_H//pi,img_W//pi])
+    #     # img_cs = rearrange(img_cs, 'b c h w -> b (h w) c')
+    #     pool_img_cs = rearrange(pool_img_cs, 'b c h w -> b (h w) c')
+    #     B,C,depth_H,depth_W = depth.size()
+
+    #     #give depth the integrity prior
+    #     enhance_depth = depth * _upsample_like(last_pred.sigmoid(),depth)
+    #     depth_cs = self.D_channelswich(enhance_depth)
+    #     pool_depth_cs = F.adaptive_avg_pool2d(depth_cs,output_size=[depth_H//pd,depth_W//pd])
+    #     depth_cs = rearrange(depth_cs, 'b c h w -> b (h w) c')
+    #     pool_depth_cs = rearrange(pool_depth_cs, 'b c h w -> b (h w) c')
+    #     B,C,patch_H,patch_W = patch.size()
+
+    #     #select the boundary patches to select patches
+    #     patch_batch = self.split(patch,patch_ratio=self.patch_ratio)
+    #     boundary_batch = self.split(boundary,patch_ratio=self.patch_ratio)
+    #     boundary_score = boundary_batch.mean(dim=[2,3])[...,None,None]
+    #     select_patch = patch_batch * (1+(boundary_score>0).float())
+    #     select_patch = self.merge(select_patch,batch_size=B)
+
+    #     patch_cs = self.P_channelswich(select_patch)
+    #     pool_patch_cs = F.adaptive_avg_pool2d(patch_cs,output_size=[patch_H//pp,patch_W//pp])
+    #     pool_patch_cs = rearrange(pool_patch_cs, 'b c h w -> b (h w) c')
+        
+    #     patch_feature = self.PI(pool_patch_cs, torch.cat([pool_img_cs,pool_depth_cs],dim=1))
+    #     depth_feature = self.IP(depth_cs,patch_feature)
+
+    #     img_feature = self.DI(pool_img_cs, torch.cat([pool_img_cs,pool_patch_cs],dim=1))
+    #     depth_feature = self.ID(depth_feature,img_feature)
+
+    #     patch_feature = rearrange(patch_feature, 'b (h w) c -> b c h w',h=patch_H//pp)
+    #     depth_feature = rearrange(depth_feature, 'b (h w) c -> b c h w',h=depth_H)
+    #     img_feature = rearrange(img_feature, 'b (h w) c -> b c h w',h=img_H//pi)
+
+    #     img_feature = _upsample_like(img_feature,img)
+    #     patch_feature = _upsample_like(patch_feature,patch)
+
+    #     return img_feature + img_cs, depth_feature + rearrange(depth_cs, 'b (h w) c -> b c h w',h=depth_H), patch_feature + patch_cs
 
 class PDF_decoder(nn.Module):
     def __init__(self, args,raw_ch=3,out_ch=1):
@@ -287,7 +353,7 @@ class PDFNet_process(nn.Module):
         emb = args.emb
         self.Glob = nn.Sequential(make_crs(emb,emb))
         self.decoder = decoder
-        self.depth_decoder = depth_decoder
+        # self.depth_decoder = depth_decoder
         self.decoder.patch_ratio = self.patch_ratio
         self.args=args
 
@@ -448,17 +514,18 @@ class PDFNet_process(nn.Module):
                             [Depth_latent_I1,Depth_latent_I2,Depth_latent_I3,Depth_latent_I4,Depth_x_glob],
                             [patch_latent_I1,patch_latent_I2,patch_latent_I3,patch_latent_I4,patch_x_glob])
         
-        pred_depth = self.depth_decoder(RIMG,[latent_I1+Depth_latent_I1+_upsample_like(patch_latent_I1,latent_I1),
-                                              latent_I2+Depth_latent_I2+_upsample_like(patch_latent_I2,latent_I2),
-                                              latent_I3+Depth_latent_I3+_upsample_like(patch_latent_I3,latent_I3),
-                                              latent_I4+Depth_latent_I4+_upsample_like(patch_latent_I4,latent_I4),
-                                              x_glob+Depth_x_glob+_upsample_like(patch_x_glob,x_glob)])
+        pred_depth = self.depth_decoder(RIMG,RDEPTH,[torch.cat([latent_I1,Depth_latent_I1,_upsample_like(patch_latent_I1,latent_I1)],dim=1),
+                                            torch.cat([latent_I2,Depth_latent_I2,_upsample_like(patch_latent_I2,latent_I2)],dim=1),
+                                            torch.cat([latent_I3,Depth_latent_I3,_upsample_like(patch_latent_I3,latent_I3)],dim=1),
+                                            torch.cat([latent_I4,Depth_latent_I4,_upsample_like(patch_latent_I4,latent_I4)],dim=1),
+                                            torch.cat([x_glob,Depth_x_glob,_upsample_like(patch_x_glob,x_glob)],dim=1)])
 
         loss, target_loss = self.loss_compute(pred_m,RGT)
         integrity_loss,_ = self.Integrity_Loss(pred_m,depth_gt,RGT)
         depth_loss,_ = self.depth_loss(pred_depth,depth_gt)
 
         loss = loss + integrity_loss/2 + depth_loss/10
+        # loss = loss + integrity_loss/2
 
         if self.args.DEBUG:
             print(pred_m[0].shape)
@@ -467,11 +534,13 @@ class PDFNet_process(nn.Module):
                                 RDEPTH.reshape([-1,H,W])[:1].cpu().detach(),
                                 RGT.reshape([-1,H,W])[:1].cpu().detach(),
                                 pred_m[0].sigmoid().reshape([-1,H,W])[:1].cpu().detach(),
-                                _upsample_like(pred_depth[0],pred_m[0]).sigmoid().reshape([-1,H,W])[:1].cpu().detach(),],dim=0)
+                                # _upsample_like(pred_depth[0],pred_m[0]).sigmoid().reshape([-1,H,W])[:1].cpu().detach(),
+                                ],dim=0)
             show_gray_images(Show_X,m=RIMG.shape[0]*4,alpha=1.5,cmap='gray')
         return [i.sigmoid() for i in pred_m], loss, target_loss
     
     @torch.no_grad()
+    
     def inference(self,img,depth):
         depth = (depth-depth.min())/(depth.max()-depth.min())
         B,C,H,W = img.size()
@@ -509,3 +578,4 @@ def build_model(args):
         return PDFNet_process(encoder=SwinB(args=args,in_chans=3,pretrained=True),
                            decoder=PDF_decoder(args=args),depth_decoder=PDF_depth_decoder(args=args),
                            device=args.device, args=args),args.model
+    
