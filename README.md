@@ -12,7 +12,7 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 >
 > Xianjie Liu, Keren Fu, Qijun Zhao
 >
-> 😍2025/10/23: [Salvador E. Tropea]([set-soft (Salvador E. Tropea)](https://github.com/set-soft)) helped to create a [ComfyUI]([set-soft/ComfyUI-RemoveBackground_SET: BiRefNet background removal for ComfyUI](https://github.com/set-soft/ComfyUI-RemoveBackground_SET?tab=readme-ov-file#comparison)). Now you can use PDFNet easily. Many thanks!
+> 😍2025/10/23: [set-soft (Salvador E. Tropea)](https://github.com/set-soft) helped to create a [set-soft/ComfyUI-RemoveBackground_SET: BiRefNet background removal for ComfyUI](https://github.com/set-soft/ComfyUI-RemoveBackground_SET?tab=readme-ov-file#comparison). Now you can use PDFNet easily. Many thanks!
 > 
 > 💻2025/3/27: We add a Hugging Face Space using CPU. You can give it a try, and each attempt will take approximately 1 minute!
 > 
