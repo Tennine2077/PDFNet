@@ -65,26 +65,6 @@ class CoA(nn.Module):
     def __init__(self, emb_dim=128):
         super(CoA, self).__init__()
         self.Att = nn.MultiheadAttention(emb_dim,1,bias=False,batch_first=True,dropout=0.1)
-        self.Normq = RMSNorm(emb_dim,data_format='channels_last')
-        self.Normkv = RMSNorm(emb_dim,data_format='channels_last')
-        self.drop1 = nn.Dropout(0.1)
-        self.FFN = SwiGLU(emb_dim,emb_dim)
-        self.Norm2 = RMSNorm(emb_dim,data_format='channels_last')
-        self.drop2 = nn.Dropout(0.1)
-
-    def forward(self,q,kv):
-        res = q
-        KV_feature = self.Att(self.Normq(q), self.Normkv(kv), self.Normkv(kv))[0]
-        KV_feature = self.drop1(KV_feature) + res
-        res = KV_feature
-        KV_feature = self.FFN(self.Norm2(KV_feature))
-        KV_feature = self.drop2(KV_feature) + res
-        return KV_feature
-
-class CoA(nn.Module):
-    def __init__(self, emb_dim=128):
-        super(CoA, self).__init__()
-        self.Att = nn.MultiheadAttention(emb_dim,1,bias=False,batch_first=True,dropout=0.1)
         self.Norm1 = RMSNorm(emb_dim,data_format='channels_last')
         self.drop1 = nn.Dropout(0.1)
         self.FFN = SwiGLU(emb_dim,emb_dim)
@@ -222,53 +202,6 @@ class FSE(nn.Module):
         patch_feature = _upsample_like(patch_feature,patch)
 
         return img_feature + rearrange(img_cs, 'b (h w) c -> b c h w',h=img_H), depth_feature + depth_cs, patch_feature + patch_cs
-
-    # def forward(self,img,depth,patch,last_pred):
-    #     boundary,integrity = self.BIS(last_pred)
-    #     # img = img * _upsample_like(last_pred.sigmoid(),img)
-    #     # depth = depth * _upsample_like(last_pred.sigmoid(),depth)
-    #     # patch = patch * _upsample_like(last_pred.sigmoid(),patch)
-    #     pi,pd,pp = self.pool_ratio
-    #     B,C,img_H,img_W = img.size()
-    #     img_cs = self.I_channelswich(img* (1+_upsample_like(integrity,depth)))
-    #     pool_img_cs = F.adaptive_avg_pool2d(img_cs,output_size=[img_H//pi,img_W//pi])
-    #     # img_cs = rearrange(img_cs, 'b c h w -> b (h w) c')
-    #     pool_img_cs = rearrange(pool_img_cs, 'b c h w -> b (h w) c')
-    #     B,C,depth_H,depth_W = depth.size()
-
-    #     #give depth the integrity prior
-    #     enhance_depth = depth * _upsample_like(last_pred.sigmoid(),depth)
-    #     depth_cs = self.D_channelswich(enhance_depth)
-    #     pool_depth_cs = F.adaptive_avg_pool2d(depth_cs,output_size=[depth_H//pd,depth_W//pd])
-    #     depth_cs = rearrange(depth_cs, 'b c h w -> b (h w) c')
-    #     pool_depth_cs = rearrange(pool_depth_cs, 'b c h w -> b (h w) c')
-    #     B,C,patch_H,patch_W = patch.size()
-
-    #     #select the boundary patches to select patches
-    #     patch_batch = self.split(patch,patch_ratio=self.patch_ratio)
-    #     boundary_batch = self.split(boundary,patch_ratio=self.patch_ratio)
-    #     boundary_score = boundary_batch.mean(dim=[2,3])[...,None,None]
-    #     select_patch = patch_batch * (1+(boundary_score>0).float())
-    #     select_patch = self.merge(select_patch,batch_size=B)
-
-    #     patch_cs = self.P_channelswich(select_patch)
-    #     pool_patch_cs = F.adaptive_avg_pool2d(patch_cs,output_size=[patch_H//pp,patch_W//pp])
-    #     pool_patch_cs = rearrange(pool_patch_cs, 'b c h w -> b (h w) c')
-        
-    #     patch_feature = self.PI(pool_patch_cs, torch.cat([pool_img_cs,pool_depth_cs],dim=1))
-    #     depth_feature = self.IP(depth_cs,patch_feature)
-
-    #     img_feature = self.DI(pool_img_cs, torch.cat([pool_img_cs,pool_patch_cs],dim=1))
-    #     depth_feature = self.ID(depth_feature,img_feature)
-
-    #     patch_feature = rearrange(patch_feature, 'b (h w) c -> b c h w',h=patch_H//pp)
-    #     depth_feature = rearrange(depth_feature, 'b (h w) c -> b c h w',h=depth_H)
-    #     img_feature = rearrange(img_feature, 'b (h w) c -> b c h w',h=img_H//pi)
-
-    #     img_feature = _upsample_like(img_feature,img)
-    #     patch_feature = _upsample_like(patch_feature,patch)
-
-    #     return img_feature + img_cs, depth_feature + rearrange(depth_cs, 'b (h w) c -> b c h w',h=depth_H), patch_feature + patch_cs
 
 class PDF_decoder(nn.Module):
     def __init__(self, args,raw_ch=3,out_ch=1):
