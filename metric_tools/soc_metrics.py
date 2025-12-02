@@ -120,7 +120,6 @@ def soc_metrics(testdir):
     n_jobs=12
 
     cycle_roots = [
-        # r"/home/4090-2/MVANET/saved_model/Model_20/DIS_VD",
         # f'/home/your_results/HRSOD-TE/{testdir}/HRSOD_test',
         # f'/home/your_results/UHRSD-TE/{testdir}/UHRSD-TE',
         # f'/home/your_results/{testdir}/HRSOD',
