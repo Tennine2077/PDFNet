@@ -20,7 +20,6 @@ import shutil
 
 def copy_allfiles(src,dest,not_case = ["valid_sample","runs"]):
   for root, dirs, files in os.walk(src):
-    # 计算目标文件夹中的对应路径
     relative_path = os.path.relpath(root, src)
     flag = 0
     for not_case_ in not_case:
