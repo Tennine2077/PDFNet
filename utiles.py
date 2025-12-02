@@ -132,7 +132,6 @@ def keep_n_files(directory, n):
     # 获取目录下所有文件的路径和最后修改时间
     files = [(file_path, os.path.getmtime(file_path)) for file_path in glob.glob(os.path.join(directory, '*'))]
     
-    # 按照最后修改时间从近到远排序
     files.sort(key=lambda x: x[1], reverse=True)
     
     # 删除多余的文件，保留最近的n个文件
