@@ -67,7 +67,7 @@ def get_args_parser():
     parser.add_argument('--decay_rate', '--dr', type=float, default=0.1, metavar='RATE',
                         help='LR decay rate (default: 0.1)')
     
-    # * Finetuning params
+
     parser.add_argument('--finetune', default='', help='finetune from checkpoint')
     parser.add_argument('--finetune_epoch', default=0, type=int)
     # Dataset parameters
