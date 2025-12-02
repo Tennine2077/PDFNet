@@ -424,23 +424,14 @@ def build_dataset(is_train,args):
         return MyDataset(train_data_path,transform=[
             #方位
             GOSRandomHFlip(0.5),
-            # GOSrandomPerspective(0.5),
-            # GOSrandomAffine(0.5),
             GOSrandomRotation(0.5),
-            # GOSRandombackground2same(1),
-            # GOSRandombackground2edgesame(1),
-            # GOSRandomimg2Grayedge(0.25),
             #颜色
-            # GOSColorJitter(0.5),
             GOSColorEnhance(0.5),
             GOSRandomGray(0.25),
             #放大
             GOSRandomUPCrop(0.5),
-            # GOSTorchRandomCrop(0.5),
             #标准化
             GOSNormalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            #噪声
-            # GOSGaussianNoise(0.1,prob=0.5),
             ],chached=args.chached,size=[args.input_size,args.input_size],istrain=True)
     else:
         valid_data_path = args.data_path+'/DIS-VD/images'
@@ -451,4 +442,5 @@ def keep_n_files(directory, n=3):
     files.sort(key=lambda x: x[1], reverse=True)
     
     for file_path, _ in files[n:]:
+
         os.remove(file_path)
