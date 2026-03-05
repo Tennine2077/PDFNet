@@ -1,4 +1,4 @@
-# PDFNet
+# PDFNet CVPR2026
 
 This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100).
 <div align='center'>
@@ -10,6 +10,8 @@ This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/25
 >
 > Xianjie Liu, Keren Fu, Qijun Zhao
 >
+> ✌️2026/3/5: Accepeted by CVPR2026. Congratulations!
+> 
 > 😍2025/10/23: [set-soft (Salvador E. Tropea)](https://github.com/set-soft) helped to create a [ComfyUI](https://github.com/set-soft/ComfyUI-RemoveBackground_SET?tab=readme-ov-file#comparison). Now you can use PDFNet easily. Many thanks!
 > 
 > 💻2025/3/27: We add a Hugging Face Space using CPU. You can give it a try, and each attempt will take approximately 1 minute!
