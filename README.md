@@ -1,6 +1,4 @@
-# 🎯 PDFNet
-
-Official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100) — *Your new best friend for high-precision image segmentation!* ✨
+# PDFNet CVPR2026
 
 <div align='center'>
 <a href='https://arxiv.org/abs/2503.06100'><img src='https://img.shields.io/badge/arXiv-Paper-red'></a>&ensp;
@@ -8,27 +6,25 @@ Official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100) �
 <a href='https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation'><img src='https://img.shields.io/badge/Awesome-DIS-green'></a>
 </div>
 
----
+> # High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
+>
+> Xianjie Liu, Keren Fu, Qijun Zhao
+>
+> ✌️2026/3/5: Accepeted by CVPR2026. Congratulations!
+> 
+> 😍2025/10/23: [set-soft (Salvador E. Tropea)](https://github.com/set-soft) helped to create a [ComfyUI](https://github.com/set-soft/ComfyUI-RemoveBackground_SET?tab=readme-ov-file#comparison). Now you can use PDFNet easily. Many thanks!
+> 
+> 💻2025/3/27: We add a Hugging Face Space using CPU. You can give it a try, and each attempt will take approximately 1 minute!
+> 
+> 🤖2025/3/23: We add a Demo jupyter notebook and you can easily use it to try!
+> 
+> 🔥2025/3/13: We released the code and checkpoints on GitHub.
+> 
+> 📕2025/3/10: We released the paper on the ArXiv.
 
-## 📝 High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
+🔥If you are interested in **Dichotomous Image Segmentation** (DIS), we highly recommend checking out our additional project [Awesome Dichotomous Image Segmentation](https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation/tree/main). This project compiles all significant research and resources related to DIS, providing comprehensive references and inspiration for your research and practice. We hope this resource list will help you better understand and apply DIS techniques, driving more accurate image segmentation tasks.
 
-**Authors:** Xianjie Liu, Keren Fu, Qijun Zhao
-
----
-
-## 🔥 What's New?
-
-| Date | News |
-|------|------|
-| 🎉 **2025/10/23** | [set-soft](https://github.com/set-soft) created a [ComfyUI plugin](https://github.com/set-soft/ComfyUI-RemoveBackground_SET) — now you can use PDFNet even easier! Big thanks! 🙏 |
-| 💻 **2025/3/27** | Added Hugging Face Space (CPU mode) — give it a try! Each inference takes ~1 min ⏱️ |
-| 🤖 **2025/3/23** | Demo Jupyter notebook is ready! Try it out! 📒 |
-| 🚀 **2025/3/13** | Code and checkpoints released on GitHub! |
-| 📕 **2025/3/10** | Paper released on arXiv! |
-
----
-
-## 💡 Why PDFNet?
+# Abstract
 
 High-precision dichotomous image segmentation (DIS) sounds fancy, but here's the deal:
 
