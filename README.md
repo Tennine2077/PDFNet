@@ -1,28 +1,34 @@
-# PDFNet CVPR2026
+# 🎯 PDFNet
+
+Official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100) — *high-precision image segmentation* ✨
 
 <div align='center'>
 <a href='https://arxiv.org/abs/2503.06100'><img src='https://img.shields.io/badge/arXiv-Paper-red'></a>&ensp;
 <a href='https://huggingface.co/spaces/Tennineee/PDFNet'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20HF-Space-blue'></a>&ensp;
-<a href='https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation'><img src='https://img.shields.io/badge/Awesome-DIS-green'></a>
+<a href='https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation'><img src='https://img.shields.io/badge/Awesome-DIS-green'></a>&ensp;
+<a href='README_CN.md'><img src='https://img.shields.io/badge/简体中文-blue'></a>
 </div>
 
-> # High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
->
-> Xianjie Liu, Keren Fu, Qijun Zhao
->
-> ✌️2026/3/5: Accepeted by CVPR2026. Congratulations!
-> 
-> 😍2025/10/23: [set-soft (Salvador E. Tropea)](https://github.com/set-soft) helped to create a [ComfyUI](https://github.com/set-soft/ComfyUI-RemoveBackground_SET?tab=readme-ov-file#comparison). Now you can use PDFNet easily. Many thanks!
-> 
-> 💻2025/3/27: We add a Hugging Face Space using CPU. You can give it a try, and each attempt will take approximately 1 minute!
-> 
-> 🤖2025/3/23: We add a Demo jupyter notebook and you can easily use it to try!
-> 
-> 🔥2025/3/13: We released the code and checkpoints on GitHub.
-> 
-> 📕2025/3/10: We released the paper on the ArXiv.
+---
 
-🔥If you are interested in **Dichotomous Image Segmentation** (DIS), we highly recommend checking out our additional project [Awesome Dichotomous Image Segmentation](https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation/tree/main). This project compiles all significant research and resources related to DIS, providing comprehensive references and inspiration for your research and practice. We hope this resource list will help you better understand and apply DIS techniques, driving more accurate image segmentation tasks.
+## 📝 High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
+
+**Authors:** Xianjie Liu, Keren Fu, Qijun Zhao
+
+---
+
+## 🔥 Latest News
+
+| Date | News |
+|------|------|
+| 🎉 **2026/3/5** | Accepted by CVPR2026. Congratulations! 🎊 |
+| ✨ **2025/10/23** | [set-soft](https://github.com/set-soft) created a [ComfyUI plugin](https://github.com/set-soft/ComfyUI-RemoveBackground_SET) — Now even easier to use! Many thanks! 🙏 |
+| 💻 **2025/3/27** | Hugging Face Space is online (CPU mode) — Give it a try, ~1 minute per inference ⏱️ |
+| 🤖 **2025/3/23** | Demo Jupyter notebook is ready! Just open and run! 📒 |
+| 🚀 **2025/3/13** | Code and pre-trained weights released! |
+| 📕 **2025/3/10** | Paper released on arXiv! |
+
+🔥If you are interested in **Dichotomous Image Segmentation** (DIS), we highly recommend checking out our additional project [Awesome Dichotomous Image Segmentation](https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation/tree/main). This project compiles all significant research and resources related to DIS, providing comprehensive references and inspiration for your research and practice.
 
 # Abstract
 
@@ -38,7 +44,7 @@ We discovered something cool — **Depth Integrity-Prior**! 🪄
 
 > In pseudo depth maps, foreground objects have stable depth values with *much lower variance* than chaotic backgrounds!
 
-![Framework](pics/Framwork.png)
+![Overview](pics/overview.png)
 
 ---
 

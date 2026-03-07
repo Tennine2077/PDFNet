@@ -1,18 +1,19 @@
 # 🎯 PDFNet
 
-[PDFNet](https://arxiv.org/abs/2503.06100) 的官方 PyTorch 实现 — *高精度图像分割的新晋神器!* ✨
+[PDFNet](https://arxiv.org/abs/2503.06100) 的官方 PyTorch 实现 — *高精度图像分割* ✨
 
 <div align='center'>
 <a href='https://arxiv.org/abs/2503.06100'><img src='https://img.shields.io/badge/arXiv-论文-red'></a>&ensp;
 <a href='https://huggingface.co/spaces/Tennineee/PDFNet'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20HF-Space-blue'></a>&ensp;
-<a href='https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation'><img src='https://img.shields.io/badge/Awesome-DIS-green'></a>
+<a href='https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation'><img src='https://img.shields.io/badge/Awesome-DIS-green'></a>&ensp;
+<a href='README.md'><img src='https://img.shields.io/badge/English-blue'></a>
 </div>
 
 ---
 
 ## 📝 基于深度完整性先验与细粒度Patch策略的高精度二分图像分割
 
-**作者:** 刘贤杰, 傅可人, 赵启军
+**作者:** 柳先杰, 傅可人, 赵启军
 
 ---
 
@@ -20,7 +21,8 @@
 
 | 时间 | 新闻 |
 |------|------|
-| 🎉 **2025/10/23** | [set-soft](https://github.com/set-soft) 大佬创建了 [ComfyUI 插件](https://github.com/set-soft/ComfyUI-RemoveBackground_SET) — 使用更方便啦！感谢大佬！🙏 |
+| 🎉 **2026/3/5** | 被 CVPR2026 接收啦！恭喜！🎊 |
+| ✨ **2025/10/23** | [set-soft](https://github.com/set-soft) 大佬创建了 [ComfyUI 插件](https://github.com/set-soft/ComfyUI-RemoveBackground_SET) — 使用更方便啦！感谢大佬！🙏 |
 | 💻 **2025/3/27** | Hugging Face Space 上线啦 (CPU模式) — 快来试试，每次推理约1分钟 ⏱️ |
 | 🤖 **2025/3/23** | 演示用的 Jupyter notebook 准备好了！开箱即用！📒 |
 | 🚀 **2025/3/13** | 代码和预训练权重正式发布！|
@@ -42,7 +44,7 @@
 
 > 在伪深度图中，前景物体的深度值非常稳定，方差远小于那些杂乱无章的背景！
 
-![框架图](pics/Framwork.png)
+![框架图](pics/overview.png)
 
 ---
 
@@ -206,18 +208,6 @@ PDFNet = 三大模块强强联手：
 | 🖼️ **SSIM Loss** | 结构相似性 |
 | 🎯 **Integrity Prior Loss** | 前景区域的深度一致性 |
 | 📏 **SiLog Loss** | 尺度不变深度损失 |
-
----
-
-## 🌈 数据增强
-
-训练时我们用了各种增强手段，让模型更鲁棒：
-- 🔄 水平翻转 (GOSRandomHFlip)
-- 🔃 随机旋转 (GOSrandomRotation)  
-- 🎨 颜色增强 (GOSColorEnhance)
-- ⬜ 灰度转换 (GOSRandomGray)
-- ✂️ 随机裁剪 (GOSRandomUPCrop)
-- 📐 标准化 (GOSNormalize)
 
 ---
 
