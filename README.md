@@ -1,93 +1,227 @@
-# PDFNet
+# 🎯 PDFNet
 
-This is the official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100).
+Official PyTorch implementation of [PDFNet](https://arxiv.org/abs/2503.06100) — *Your new best friend for high-precision image segmentation!* ✨
+
 <div align='center'>
 <a href='https://arxiv.org/abs/2503.06100'><img src='https://img.shields.io/badge/arXiv-Paper-red'></a>&ensp;
 <a href='https://huggingface.co/spaces/Tennineee/PDFNet'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20HF-Space-blue'></a>&ensp;
+<a href='https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation'><img src='https://img.shields.io/badge/Awesome-DIS-green'></a>
 </div>
 
-> # High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
->
-> Xianjie Liu, Keren Fu, Qijun Zhao
->
-> 😍2025/10/23: [set-soft (Salvador E. Tropea)](https://github.com/set-soft) helped to create a [ComfyUI](https://github.com/set-soft/ComfyUI-RemoveBackground_SET?tab=readme-ov-file#comparison). Now you can use PDFNet easily. Many thanks!
-> 
-> 💻2025/3/27: We add a Hugging Face Space using CPU. You can give it a try, and each attempt will take approximately 1 minute!
-> 
-> 🤖2025/3/23: We add a Demo jupyter notebook and you can easily use it to try!
-> 
-> 🔥2025/3/13: We released the code and checkpoints on GitHub.
-> 
-> 📕2025/3/10: We released the paper on the ArXiv.
+---
 
-🔥If you are interested in **Dichotomous Image Segmentation** (DIS), we highly recommend checking out our additional project [Awesome Dichotomous Image Segmentation](https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation/tree/main). This project compiles all significant research and resources related to DIS, providing comprehensive references and inspiration for your research and practice. We hope this resource list will help you better understand and apply DIS techniques, driving more accurate image segmentation tasks.
+## 📝 High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy
 
-# Abstract
+**Authors:** Xianjie Liu, Keren Fu, Qijun Zhao
 
-High-precision dichotomous image segmentation (DIS) is a task of extracting fine-grained objects from high-resolution images. Existing methods face a dilemma: non-diffusion methods work efficiently but suffer from false or missed detections due to weak semantics and less robust spatial priors; diffusion methods, using strong generative priors, have high accuracy but encounter high computational burdens. As a solution, we find pseudo depth information from monocular depth estimation models can provide essential semantic understanding that quickly reveals spatial differences across target objects and backgrounds. Inspired by this phenomenon, we discover a novel insight we term the depth integrity-prior: in pseudo depth maps, foreground objects consistently convey stable depth values with much lower variances than chaotic background patterns. To exploit such a prior, we propose a Prior of Depth Fusion Network (PDFNet). Specifically, our network establishes multimodal interactive modeling to achieve depth-guided structural perception by deeply fusing RGB and pseudo depth features. We further introduce a novel depth integrity-prior loss to explicitly enforce depth consistency in segmentation results. Additionally, we design a fine-grained perception enhancement module with adaptive patch selection to perform boundary-sensitive detail refinement. Notably, PDFNet achieves state-of-the-art performance with only 94M parameters (<11% of those diffusion-based models), outperforming all non-diffusion methods and surpassing some diffusion methods.
+---
 
-![image](pics/Framwork.png)
-## Installation
-```
-conda create -n PDFNet python = 3.11.4
+## 🔥 What's New?
+
+| Date | News |
+|------|------|
+| 🎉 **2025/10/23** | [set-soft](https://github.com/set-soft) created a [ComfyUI plugin](https://github.com/set-soft/ComfyUI-RemoveBackground_SET) — now you can use PDFNet even easier! Big thanks! 🙏 |
+| 💻 **2025/3/27** | Added Hugging Face Space (CPU mode) — give it a try! Each inference takes ~1 min ⏱️ |
+| 🤖 **2025/3/23** | Demo Jupyter notebook is ready! Try it out! 📒 |
+| 🚀 **2025/3/13** | Code and checkpoints released on GitHub! |
+| 📕 **2025/3/10** | Paper released on arXiv! |
+
+---
+
+## 💡 Why PDFNet?
+
+High-precision dichotomous image segmentation (DIS) sounds fancy, but here's the deal:
+
+**The Problem 😰:**
+- Non-diffusion methods → Fast but often miss details or produce false detections
+- Diffusion methods → Accurate but sloooow and computationally expensive
+
+**Our Solution 🎯:**
+
+We discovered something cool — **Depth Integrity-Prior**! 🪄
+
+> In pseudo depth maps, foreground objects have stable depth values with *much lower variance* than chaotic backgrounds!
+
+![Framework](pics/Framwork.png)
+
+---
+
+## 🛠️ Installation
+
+Super easy setup! Just run:
+
+```bash
+# Create environment
+conda create -n PDFNet python=3.11.4
 conda activate PDFNet
 
+# Install dependencies
 pip install -r requirements.txt
 ```
-## Dataset Preparation
 
-Please download the [DIS-5K dataset](https://github.com/xuebinqin/DIS) first and place them in the "**data**" directory. The structure of the "**data**" folder should be as follows:
+---
+
+## 📦 Dataset Preparation
+
+### Step 1: Get the Data 📥
+
+Download the [DIS-5K dataset](https://github.com/xuebinqin/DIS) and organize like this:
+
 ```
 PDFNet
-└──DATA
-	└──DIS-DATA
-	    └── DIS-TE1
-	    ├── DIS-TE2
-	    ├── DIS-TE3
-	    ├── DIS-TE4
-	    ├── DIS-TR
-	    └── DIS-VD
-	    	├──images
-	    	└──masks
+└── DATA
+    └── DIS-DATA
+        ├── DIS-TE1 📁
+        ├── DIS-TE2 📁
+        ├── DIS-TE3 📁
+        ├── DIS-TE4 📁
+        ├── DIS-TR 📁
+        └── DIS-VD 📁
+            ├── images 🖼️
+            └── masks 🎭
 ```
-Download [Swin-B weights](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth)  into '**checkpoints**'.
 
-### Depth Preparation
-Please download the [DAM-V2 Project](https://github.com/DepthAnything/Depth-Anything-V2) and place them into the DAM-V2 and download the [DAM-V2 weights](https://github.com/DepthAnything/Depth-Anything-V2) into the '**checkpoints**'.
-Now you can use the '**DAM-V2/Depth-preprare.ipynb**' to generate the pseudo-depth map for training and testing.
+### Step 2: Get the Backbone 🦴
 
-# Training
+Download [Swin-B weights](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth) → put in `checkpoints` folder
 
-Run
-```
+### Step 3: Generate Depth Maps 🗺️
+
+1. Clone [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2) into `DAM-V2`
+2. Download [DAM-V2 weights](https://github.com/DepthAnything/Depth-Anything-V2) → `checkpoints`
+3. Run `DAM-V2/Depth-prepare.ipynb` to generate pseudo-depth maps
+
+---
+
+## 🚀 Training
+
+Let's train this beast! 🦁
+
+```bash
 python Train_PDFNet.py
 ```
-If you wanna change the training datasets, you can open the '**dataoloaders/Mydataset.py**' '**build_dataset**' function to add the other datasets.
 
-# Test and metric
+### 🎛️ Key Arguments
 
-Open the '**metric_tools/Test**'  to change the '**save_dir**' and open the '**soc_metric**' to change the '**gt_roots**' and '**cycle_roots**' to what you need.
-Run
-```
+| Argument | Default | What it does |
+|----------|---------|--------------|
+| `--batch_size` | 1 | Batch size (bigger = more VRAM needed) |
+| `--epochs` | 100 | Training epochs |
+| `--lr` | 1e-5 | Learning rate |
+| `--input_size` | 1024 | Input resolution |
+| `--model` | PDFNet_swinB | Model variant |
+| `--device` | cuda | GPU or CPU |
+| `--eval_metric` | F1 | Evaluation metric (F1 or MAE) |
+
+Want to use custom datasets? Edit `dataloaders/Mydataset.py` → `build_dataset` function! 🔧
+
+---
+
+## 🧪 Testing & Evaluation
+
+1️⃣ Configure paths in `metric_tools/Test.py`:
+   - Set `save_dir` for your outputs
+   - Update `gt_roots` and `cycle_roots` in `soc_metric.py`
+
+2️⃣ Run evaluation:
+```bash
 cd metric_tools
 python Test.py
 ```
 
-# Different training datasets results and checkpoints
+---
 
-| Training Dataset       | Checkpoints and Validation Results                                                                                        |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| DIS-5K TR              | [DIS Checkpoint and visual results](https://drive.google.com/drive/folders/1dqkFVR4TElSRFNHhu6er45OQkoHhJsZz?usp=sharing) |
-| HRSOD -TR + UHRSD - TR | [Only Visual results](https://drive.google.com/file/d/1DKL1Jonx_PR1HF6m0D4lyUQtAmR7oQrd/view?usp=sharing)                 |
+## 📥 Pre-trained Weights
 
-You also can use the '**demo.ipynb**' to try PDFNet easily!
-# Compare
-## Visual results
-![image](pics/vcompare.png)
-# BibTeX
+| Training Data | What You Get |
+|---------------|--------------|
+| DIS-5K TR | [📦 Checkpoint + Visual Results](https://drive.google.com/drive/folders/1dqkFVR4TElSRFNHhu6er45OQkoHhJsZz?usp=sharing) |
+| HRSOD-TR + UHRSD-TR | [🎨 Visual Results Only](https://drive.google.com/file/d/1DKL1Jonx_PR1HF6m0D4lyUQtAmR7oQrd/view?usp=sharing) |
 
-Please consider to cite PDFNet if it helps your research.
+---
+
+## 🎮 Quick Demo
+
+Just want to try it out? Open `demo.ipynb` and have fun! 🎉
+
+---
+
+## 👀 Visual Results
+
+Seeing is believing! Check out how we compare:
+
+![Visual Comparison](pics/vcompare.png)
+
+---
+
+## 🏗️ Project Structure
+
 ```
+PDFNet
+├── 📄 args.py              # Argument parser
+├── 📄 main.py              # Main training loop
+├── 📄 Train_PDFNet.py      # Training entry point
+├── 📄 utiles.py            # Utilities (optimizer, eval)
+├── 📒 demo.ipynb           # Quick demo notebook
+├── 📄 requirements.txt     # Dependencies
+├── 📂 dataloaders/
+│   └── 📄 Mydataset.py     # Dataset + augmentations
+├── 📂 models/
+│   ├── 📄 PDFNet.py        # The star of the show! ⭐
+│   ├── 📄 swin_transformer.py  # Backbone
+│   └── 📄 utils.py         # Loss functions
+├── 📂 metric_tools/
+│   ├── 📄 metrics.py       # F1, MAE, S-m, E-m
+│   ├── 📄 F1torch.py       # F1 calculation
+│   └── 📄 Test.py          # Testing script
+└── 📂 DAM_V2/
+    └── 📒 Depth-prepare.ipynb  # Depth generation
+```
+
+---
+
+## 🧠 Model Architecture
+
+PDFNet = Three powerful components working together:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  📸 Encoder (Swin Transformer Base)                 │
+│     → Multi-scale feature extraction                │
+├─────────────────────────────────────────────────────┤
+│  🔮 FSE Module (Fine-grained Semantic Enhancement)  │
+│     ├── CoA: Cross-attention for RGB-Depth-Patch    │
+│     └── BIS: Boundary-aware Integrity Selection     │
+├─────────────────────────────────────────────────────┤
+│  📤 Decoder                                         │
+│     → Multi-scale output with deep supervision      │
+└─────────────────────────────────────────────────────┘
+```
+
+### 🎯 Loss Functions We Use
+
+| Loss | Purpose |
+|------|---------|
+| 📊 **Structure Loss** | Edge-weighted BCE + IoU |
+| 🖼️ **SSIM Loss** | Structural similarity |
+| 🎯 **Integrity Prior Loss** | Depth consistency in foreground |
+| 📏 **SiLog Loss** | Scale-invariant depth loss |
+
+---
+
+## 🤝 Related Resources
+
+Interested in DIS? Check these out:
+
+- 🌟 [Awesome Dichotomous Image Segmentation](https://github.com/Tennine2077/Awesome-Dichotomous-Image-Segmentation) — A curated list of DIS resources!
+
+---
+
+## 📖 Citation
+
+Found PDFNet helpful? Please cite us! 📚
+
+```bibtex
 @misc{liu2025highprecisiondichotomousimagesegmentation,
       title={High-Precision Dichotomous Image Segmentation via Depth Integrity-Prior and Fine-Grained Patch Strategy}, 
       author={Xianjie Liu and Keren Fu and Qijun Zhao},
@@ -98,3 +232,29 @@ Please consider to cite PDFNet if it helps your research.
       url={https://arxiv.org/abs/2503.06100}, 
 }
 ```
+
+---
+
+## 📜 License
+
+Check out the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+Big thanks to:
+
+- 🗂️ [DIS Dataset](https://github.com/xuebinqin/DIS) — Amazing benchmark!
+- 🏔️ [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2) — Great depth estimation!
+- 🦁 [Swin Transformer](https://github.com/microsoft/Swin-Transformer) — Powerful backbone!
+
+---
+
+<div align='center'>
+
+**Happy Segmenting! 🎉**
+
+Made with ❤️ by the PDFNet Team
+
+</div>
